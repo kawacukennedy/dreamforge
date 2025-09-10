@@ -138,14 +138,3 @@ export async function continueStory(
   return JSON.parse(result) as StoryNode
 }
 
-export async function generateImage(prompt: string, style: string = "cinematic"): Promise<string> {
-  const response = await openai.images.generate({
-    model: "dall-e-3",
-    prompt: `${prompt}. Style: ${style}, high quality, detailed`,
-    size: "1024x1024",
-    quality: "standard",
-    n: 1,
-  })
-
-  return response.data?.[0]?.url || ''
-}
