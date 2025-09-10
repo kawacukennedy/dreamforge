@@ -1,0 +1,185 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  username      String?   @unique
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  passwordHash  String?
+  avatar        String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Relations
+  stories      Story[]
+  comments     Comment[]
+  storySession StorySession[]
+  likes        Like[]
+  followers    Follow[]  @relation("UserFollowers")
+  following    Follow[]  @relation("UserFollowing")
+
+  // NextAuth relations
+  accounts Account[]
+  sessions Session[]
+  
+  @@map("users")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verificationtokens")
+}
+
+model Story {
+  id          String    @id @default(cuid())
+  title       String
+  description String?
+  contentJson Json      // Stores the story structure, branches, choices
+  genre       String?
+  isPublic    Boolean   @default(true)
+  isCompleted Boolean   @default(false)
+  likesCount  Int       @default(0)
+  playsCount  Int       @default(0)
+  authorId    String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  // Relations
+  author       User           @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  storySessions StorySession[]
+  comments     Comment[]
+  likes        Like[]
+  tags         StoryTag[]
+
+  @@map("stories")
+}
+
+model StorySession {
+  id           String    @id @default(cuid())
+  storyId      String
+  status       String    @default("active") // active, completed, paused
+  isMultiplayer Boolean  @default(false)
+  participants Json      // Array of user IDs and their assigned characters
+  currentState Json      // Current story state, choices made, etc.
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  // Relations
+  story        Story          @relation(fields: [storyId], references: [id], onDelete: Cascade)
+  users        User[]
+  chatMessages ChatMessage[]
+
+  @@map("story_sessions")
+}
+
+model Comment {
+  id          String   @id @default(cuid())
+  content     String
+  storyId     String
+  authorId    String
+  parentId    String?  // For nested comments
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  story    Story     @relation(fields: [storyId], references: [id], onDelete: Cascade)
+  author   User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  parent   Comment?  @relation("CommentReplies", fields: [parentId], references: [id])
+  replies  Comment[] @relation("CommentReplies")
+
+  @@map("comments")
+}
+
+model Like {
+  id      String @id @default(cuid())
+  userId  String
+  storyId String
+
+  // Relations
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  story Story @relation(fields: [storyId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, storyId])
+  @@map("likes")
+}
+
+model Follow {
+  id          String @id @default(cuid())
+  followerId  String
+  followingId String
+  createdAt   DateTime @default(now())
+
+  // Relations
+  follower  User @relation("UserFollowers", fields: [followerId], references: [id], onDelete: Cascade)
+  following User @relation("UserFollowing", fields: [followingId], references: [id], onDelete: Cascade)
+
+  @@unique([followerId, followingId])
+  @@map("follows")
+}
+
+model StoryTag {
+  id      String @id @default(cuid())
+  name    String @unique
+  stories Story[]
+
+  @@map("story_tags")
+}
+
+model ChatMessage {
+  id        String   @id @default(cuid())
+  sessionId String
+  userId    String
+  message   String
+  createdAt DateTime @default(now())
+
+  // Relations
+  session StorySession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@map("chat_messages")
+}

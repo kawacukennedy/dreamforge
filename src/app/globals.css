@@ -1,26 +1,155 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  /* Colors that map to CSS variables */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  
+  /* Sidebar colors */
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  
+  /* Chart colors */
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  
+  /* Fonts */
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  
+  /* Radius */
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root {
+  --radius: 0.75rem;
+  /* Cinematic Dark Theme - Default since it's our main design */
+  --background: #0F1115;
+  --foreground: #E4E7EC;
+  --card: rgba(255, 255, 255, 0.05);
+  --card-foreground: #E4E7EC;
+  --popover: rgba(15, 17, 21, 0.95);
+  --popover-foreground: #E4E7EC;
+  /* Neon Teal Primary */
+  --primary: #00FFFF;
+  --primary-foreground: #0F1115;
+  /* Coral Neon Secondary */
+  --secondary: #FF6F61;
+  --secondary-foreground: #0F1115;
+  --muted: rgba(255, 255, 255, 0.08);
+  --muted-foreground: #9CA3AF;
+  --accent: rgba(0, 255, 255, 0.1);
+  --accent-foreground: #00FFFF;
+  --destructive: #EF4444;
+  --border: rgba(255, 255, 255, 0.1);
+  --input: rgba(255, 255, 255, 0.05);
+  --ring: #00FFFF;
+  --chart-1: #00FFFF;
+  --chart-2: #FF6F61;
+  --chart-3: #A855F7;
+  --chart-4: #10B981;
+  --chart-5: #F59E0B;
+  --sidebar: rgba(15, 17, 21, 0.8);
+  --sidebar-foreground: #E4E7EC;
+  --sidebar-primary: #00FFFF;
+  --sidebar-primary-foreground: #0F1115;
+  --sidebar-accent: rgba(0, 255, 255, 0.1);
+  --sidebar-accent-foreground: #00FFFF;
+  --sidebar-border: rgba(255, 255, 255, 0.1);
+  --sidebar-ring: #00FFFF;
+}
+
+.light {
+  /* Light theme fallback */
+  --background: #FFFFFF;
+  --foreground: #0F1115;
+  --card: #FFFFFF;
+  --card-foreground: #0F1115;
+  --popover: #FFFFFF;
+  --popover-foreground: #0F1115;
+  --primary: #00CCCC;
+  --primary-foreground: #FFFFFF;
+  --secondary: #FF6F61;
+  --secondary-foreground: #FFFFFF;
+  --muted: #F3F4F6;
+  --muted-foreground: #6B7280;
+  --accent: #F3F4F6;
+  --accent-foreground: #0F1115;
+  --destructive: #EF4444;
+  --border: #E5E7EB;
+  --input: #F9FAFB;
+  --ring: #00CCCC;
+  --chart-1: #00FFFF;
+  --chart-2: #FF6F61;
+  --chart-3: #A855F7;
+  --chart-4: #10B981;
+  --chart-5: #F59E0B;
+  --sidebar: #FFFFFF;
+  --sidebar-foreground: #0F1115;
+  --sidebar-primary: #00CCCC;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #F3F4F6;
+  --sidebar-accent-foreground: #0F1115;
+  --sidebar-border: #E5E7EB;
+  --sidebar-ring: #00CCCC;
+}
+
+@layer base {
+  * {
+    @apply border-border;
   }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  body {
+    @apply bg-background text-foreground;
+  }
+  
+  /* Clean, minimal containers */
+  .container {
+    @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+  
+  /* Responsive text sizing */
+  .text-responsive {
+    @apply text-sm sm:text-base;
+  }
+  
+  /* Minimal card style */
+  .minimal-card {
+    @apply bg-card border border-border rounded-lg p-4 sm:p-6;
+  }
+  
+  /* Clean button styles */
+  .btn-minimal {
+    @apply px-4 py-2 rounded-md font-medium transition-colors;
+  }
 }

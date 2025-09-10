@@ -1,103 +1,238 @@
-import Image from "next/image";
+"use client"
 
-export default function Home() {
+import Link from 'next/link'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { BookOpen, Sparkles, Users, Zap, Trophy, ArrowRight } from 'lucide-react'
+import { AnimatedDiv } from '@/components/ui/animated'
+
+const featuredStories = [
+  {
+    id: '1',
+    title: 'The Quantum Thief',
+    description: 'A heist across multiple dimensions where every choice creates a new reality.',
+    genre: 'Sci-Fi',
+    plays: 1250,
+    likes: 89,
+    author: 'QuantumWriter',
+  },
+  {
+    id: '2',
+    title: 'Enchanted Grove Mystery',
+    description: 'Uncover ancient secrets in a magical forest where nothing is as it seems.',
+    genre: 'Fantasy',
+    plays: 980,
+    likes: 67,
+    author: 'MysticTales',
+  },
+  {
+    id: '3',
+    title: 'Midnight Express',
+    description: 'A noir thriller set aboard a train where everyone has deadly secrets.',
+    genre: 'Thriller',
+    plays: 750,
+    likes: 45,
+    author: 'NoirMaster',
+  },
+]
+
+export default function HomePage() {
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div className="flex flex-col min-h-screen">
+      {/* Hero Section */}
+      <section className="py-16 sm:py-24">
+        <div className="container">
+          <div className="max-w-4xl mx-auto text-center space-y-8">
+            <AnimatedDiv delay={0} className="inline-flex items-center bg-muted rounded-full px-4 py-2 text-sm">
+              <Sparkles className="mr-2 h-4 w-4 text-primary" />
+              <span className="text-muted-foreground">AI-Powered Interactive Storytelling</span>
+            </AnimatedDiv>
+            
+            <AnimatedDiv delay={0.1}>
+              <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight">
+                Create Epic Adventures <span className="text-primary">Together</span>
+              </h1>
+            </AnimatedDiv>
+            
+            <AnimatedDiv delay={0.2}>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                Create branching narratives with AI, play with friends, and discover infinite worlds of imagination.
+              </p>
+            </AnimatedDiv>
+            
+            <AnimatedDiv delay={0.3} className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-8">
+              <Button size="lg" asChild>
+                <Link href="/create">
+                  <Sparkles className="mr-2 h-4 w-4" />
+                  Start Creating
+                </Link>
+              </Button>
+              <Button variant="outline" size="lg" asChild>
+                <Link href="/explore">
+                  <BookOpen className="mr-2 h-4 w-4" />
+                  Explore Stories
+                </Link>
+              </Button>
+            </AnimatedDiv>
+            
+            <AnimatedDiv delay={0.4} className="flex items-center justify-center gap-8 pt-12 text-sm text-muted-foreground">
+              <div className="flex items-center gap-2">
+                <Users className="h-4 w-4" />
+                <span>10K+ Players</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <BookOpen className="h-4 w-4" />
+                <span>5K+ Stories</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Zap className="h-4 w-4" />
+                <span>AI-Generated</span>
+              </div>
+            </AnimatedDiv>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </section>
+
+      {/* Features Section */}
+      <section className="py-16 sm:py-20">
+        <div className="container">
+          <div className="max-w-3xl mx-auto text-center mb-12">
+            <h2 className="text-3xl font-bold mb-4">
+              Why Choose DreamForge?
+            </h2>
+            <p className="text-lg text-muted-foreground">
+              Experience storytelling with innovative AI-powered features
+            </p>
+          </div>
+          
+          <div className="grid gap-6 md:grid-cols-3 max-w-5xl mx-auto">
+            <Card className="text-center h-full">
+              <CardHeader className="space-y-4">
+                <div className="mx-auto w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+                  <Sparkles className="h-6 w-6 text-primary" />
+                </div>
+                <CardTitle className="text-xl font-semibold">AI Story Engine</CardTitle>
+                <CardDescription className="text-muted-foreground">
+                  Advanced AI creates unique, engaging narratives from your ideas with branching storylines.
+                </CardDescription>
+              </CardHeader>
+            </Card>
+
+            <Card className="text-center h-full">
+              <CardHeader className="space-y-4">
+                <div className="mx-auto w-12 h-12 bg-secondary/10 rounded-lg flex items-center justify-center">
+                  <Users className="h-6 w-6 text-secondary" />
+                </div>
+                <CardTitle className="text-xl font-semibold">Collaborative Play</CardTitle>
+                <CardDescription className="text-muted-foreground">
+                  Team up with friends in multiplayer sessions, each taking on different character roles.
+                </CardDescription>
+              </CardHeader>
+            </Card>
+
+            <Card className="text-center h-full">
+              <CardHeader className="space-y-4">
+                <div className="mx-auto w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+                  <Trophy className="h-6 w-6 text-primary" />
+                </div>
+                <CardTitle className="text-xl font-semibold">Challenge Mode</CardTitle>
+                <CardDescription className="text-muted-foreground">
+                  Push your creativity with constraints and daily challenges.
+                </CardDescription>
+              </CardHeader>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Stories */}
+      <section className="py-16 sm:py-20 bg-muted/20">
+        <div className="container">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-12 gap-4">
+            <div className="space-y-2">
+              <h2 className="text-3xl font-bold">Trending Stories</h2>
+              <p className="text-muted-foreground">
+                Discover the most popular adventures our community is playing
+              </p>
+            </div>
+            <Button variant="outline" asChild>
+              <Link href="/explore">
+                View All
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {featuredStories.map((story) => (
+              <Card key={story.id} className="cursor-pointer h-full hover:bg-muted/50 transition-colors">
+                <CardHeader className="space-y-3">
+                  <div className="flex items-start justify-between">
+                    <Badge variant="secondary">
+                      {story.genre}
+                    </Badge>
+                    <div className="text-sm text-muted-foreground">
+                      by {story.author}
+                    </div>
+                  </div>
+                  <CardTitle className="text-lg">
+                    {story.title}
+                  </CardTitle>
+                  <CardDescription>
+                    {story.description}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex items-center justify-between text-sm text-muted-foreground">
+                    <span className="flex items-center gap-1">
+                      <Users className="h-3 w-3" />
+                      {story.plays.toLocaleString()} plays
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <Trophy className="h-3 w-3" />
+                      {story.likes} likes
+                    </span>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-16 sm:py-20">
+        <div className="container">
+          <Card className="bg-muted/20 text-center">
+            <CardContent className="p-8 sm:p-12">
+              <div className="space-y-6">
+                <h2 className="text-3xl font-bold">
+                  Ready to Begin Your Adventure?
+                </h2>
+                
+                <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                  Join thousands of storytellers creating amazing interactive experiences.
+                </p>
+                
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+                  <Button size="lg" asChild>
+                    <Link href="/create">
+                      <Sparkles className="mr-2 h-4 w-4" />
+                      Create Your First Story
+                    </Link>
+                  </Button>
+                  <Button variant="outline" size="lg" asChild>
+                    <Link href="/auth/signup">
+                      Join the Community
+                    </Link>
+                  </Button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
     </div>
-  );
+  )
 }
