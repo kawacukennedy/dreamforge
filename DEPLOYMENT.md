@@ -28,31 +28,43 @@ vercel postgres create dreamforge-db
 2. Create a new project
 3. Copy the connection string
 
-## Step 2: Set Up Vercel Secrets
+## Step 2: Set Up Environment Variables
 
-Run these commands in your project directory:
+### Method 1: Vercel Dashboard (Recommended)
+1. Go to your project on [vercel.com](https://vercel.com)
+2. Navigate to Settings > Environment Variables
+3. Add the following variables:
+
+| Variable Name | Value | Environment |
+|---------------|-------|-------------|
+| `DATABASE_URL` | Your PostgreSQL connection string | Production, Preview |
+| `NEXTAUTH_URL` | `https://your-app-name.vercel.app` | Production, Preview |
+| `NEXTAUTH_SECRET` | Generate with: `openssl rand -base64 32` | Production, Preview |
+| `GOOGLE_CLIENT_ID` | From Google Cloud Console | Production, Preview |
+| `GOOGLE_CLIENT_SECRET` | From Google Cloud Console | Production, Preview |
+| `GEMINI_API_KEY` | From Google AI Studio | Production, Preview |
+
+### Method 2: Vercel CLI
+Alternatively, use these commands in your project directory:
 
 ```bash
-# Database
-vercel env add database_url
+# Set environment variables (not secrets)
+vercel env add DATABASE_URL production
 # Paste your PostgreSQL connection string
 
-# NextAuth configuration
-vercel env add nextauth_url
+vercel env add NEXTAUTH_URL production  
 # Enter: https://your-app-name.vercel.app
 
-vercel env add nextauth_secret
+vercel env add NEXTAUTH_SECRET production
 # Generate a secure secret: openssl rand -base64 32
 
-# Google OAuth (from Google Cloud Console)
-vercel env add google_client_id
+vercel env add GOOGLE_CLIENT_ID production
 # Paste your Google Client ID
 
-vercel env add google_client_secret  
+vercel env add GOOGLE_CLIENT_SECRET production
 # Paste your Google Client Secret
 
-# Gemini AI API
-vercel env add gemini_api_key
+vercel env add GEMINI_API_KEY production
 # Paste your Gemini API key from Google AI Studio
 ```
 
