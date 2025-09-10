@@ -1,5 +1,5 @@
 import { NextAuthOptions } from "next-auth"
-import { PrismaAdapter } from "@auth/prisma-adapter"
+import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import GoogleProvider from "next-auth/providers/google"
 import CredentialsProvider from "next-auth/providers/credentials"
 import bcryptjs from "bcryptjs"
@@ -45,8 +45,8 @@ export const authOptions: NextAuthOptions = {
         return {
           id: user.id,
           email: user.email,
-          username: user.username,
-          avatar: user.avatar,
+          username: user.username || user.email.split('@')[0] || 'user',
+          avatar: user.avatar || undefined,
         }
       }
     })
@@ -59,7 +59,8 @@ export const authOptions: NextAuthOptions = {
       if (account?.provider === 'google') {
         // For OAuth providers, create username from profile if not exists
         if (!user.username) {
-          user.username = profile?.login || profile?.preferred_username || user.name?.replace(/\s+/g, '').toLowerCase() || user.email?.split('@')[0] || 'user'
+          const profileAny = profile as any
+          user.username = profileAny?.login || profileAny?.preferred_username || user.name?.replace(/\s+/g, '').toLowerCase() || user.email?.split('@')[0] || 'user'
         }
       }
       return true
@@ -67,7 +68,7 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user, account }) {
       if (user) {
         token.username = user.username || user.name?.replace(/\s+/g, '').toLowerCase() || user.email?.split('@')[0] || 'user'
-        token.avatar = user.avatar || user.image
+        token.avatar = user.avatar || user.image || undefined
       }
       return token
     },
@@ -82,7 +83,6 @@ export const authOptions: NextAuthOptions = {
   },
   pages: {
     signIn: "/auth/signin",
-    signUp: "/auth/signup",
   },
 }
 

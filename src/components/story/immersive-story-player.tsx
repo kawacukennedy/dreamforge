@@ -17,10 +17,10 @@ import {
   MessageCircle,
   Users
 } from 'lucide-react'
-import type { StoryNode, GeneratedStory } from '@/lib/openai'
+import type { StoryNode, GeneratedStory } from '@/lib/gemini'
 
 interface ImmersiveStoryPlayerProps {
-  story: GeneratedStory & { id: string }
+  story: GeneratedStory & { id: string; genre?: string }
   currentNode: StoryNode
   onChoiceSelect: (choiceId: string) => Promise<void>
   isLoading?: boolean

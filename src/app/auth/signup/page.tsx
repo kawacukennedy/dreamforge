@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { signIn, getSession, getProviders } from 'next-auth/react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
@@ -13,7 +13,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Loader2, BookOpen, AlertCircle, CheckCircle } from 'lucide-react'
 import { motion } from 'framer-motion'
 
-export default function SignUpPage() {
+function SignUpContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const callbackUrl = searchParams?.get('callbackUrl') || '/'
@@ -349,5 +349,21 @@ export default function SignUpPage() {
         </Card>
       </motion.div>
     </div>
+  )
+}
+
+export default function SignUpPage() {
+  return (
+    <Suspense fallback={
+      <div className="container flex items-center justify-center min-h-[calc(100vh-4rem)] py-10">
+        <Card className="w-full max-w-md">
+          <CardContent className="flex items-center justify-center py-10">
+            <Loader2 className="h-6 w-6 animate-spin" />
+          </CardContent>
+        </Card>
+      </div>
+    }>
+      <SignUpContent />
+    </Suspense>
   )
 }

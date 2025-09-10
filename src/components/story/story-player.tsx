@@ -7,10 +7,10 @@ import { Badge } from '@/components/ui/badge'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Loader2, BookOpen, Users, Heart, MessageCircle, Share2, Play } from 'lucide-react'
 import { motion } from 'framer-motion'
-import type { StoryNode, GeneratedStory, Character } from '@/lib/openai'
+import type { StoryNode, GeneratedStory, Character } from '@/lib/gemini'
 
 interface StoryPlayerProps {
-  story: GeneratedStory & { id: string }
+  story: GeneratedStory & { id: string; genre?: string }
   onChoiceSelect: (choiceId: string) => Promise<void>
   isLoading?: boolean
   currentNode?: StoryNode

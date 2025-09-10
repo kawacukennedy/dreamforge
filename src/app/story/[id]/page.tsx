@@ -7,13 +7,18 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Loader2, AlertCircle, ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
-import type { GeneratedStory, StoryNode } from '@/lib/openai'
+import type { GeneratedStory, StoryNode } from '@/lib/gemini'
+
+interface DatabaseStory extends GeneratedStory {
+  id: string
+  contentJson?: any // The full story content from the database
+}
 
 export default function StoryPage() {
   const params = useParams()
   const storyId = params.id as string
 
-  const [story, setStory] = useState<(GeneratedStory & { id: string }) | null>(null)
+  const [story, setStory] = useState<DatabaseStory | null>(null)
   const [currentNode, setCurrentNode] = useState<StoryNode | null>(null)
   const [loading, setLoading] = useState(true)
   const [choiceLoading, setChoiceLoading] = useState(false)

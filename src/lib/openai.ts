@@ -147,5 +147,5 @@ export async function generateImage(prompt: string, style: string = "cinematic")
     n: 1,
   })
 
-  return response.data[0]?.url || ''
+  return response.data?.[0]?.url || ''
 }

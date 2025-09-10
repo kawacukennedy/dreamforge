@@ -26,18 +26,21 @@ export async function POST(request: NextRequest) {
       constraints
     })
 
+    // Prepare the story content for JSON storage
+    const storyContent = {
+      ...generatedStory,
+      nodes: {
+        [generatedStory.firstNode.id]: generatedStory.firstNode
+      },
+      currentNodeId: generatedStory.firstNode.id
+    }
+
     // Save the story to the database
     const story = await prisma.story.create({
       data: {
         title: generatedStory.title,
         description: generatedStory.description,
-        contentJson: {
-          ...generatedStory,
-          nodes: {
-            [generatedStory.firstNode.id]: generatedStory.firstNode
-          },
-          currentNodeId: generatedStory.firstNode.id
-        },
+        contentJson: storyContent as any, // Cast to any to satisfy Prisma's JsonValue type
         genre: genre || null,
         authorId: session.user.id,
         isCompleted: false,
@@ -49,8 +52,6 @@ export async function POST(request: NextRequest) {
       success: true,
       story: {
         id: story.id,
-        title: story.title,
-        description: story.description,
         ...generatedStory
       }
     })

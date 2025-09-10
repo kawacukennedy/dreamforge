@@ -41,7 +41,7 @@ async function retryWithBackoff<T>(
   maxRetries: number = 3,
   baseDelay: number = 1000
 ): Promise<T> {
-  let lastError: Error
+  let lastError: Error = new Error('No attempts made')
   
   for (let i = 0; i < maxRetries; i++) {
     try {
