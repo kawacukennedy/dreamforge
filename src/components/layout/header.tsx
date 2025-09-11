@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { useSession, signIn, signOut } from "next-auth/react"
+import { useSession, signOut } from "next-auth/react"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
@@ -200,13 +200,17 @@ export function Header() {
                   className="flex items-center space-x-3"
                 >
                   <PulseOnHover>
-                    <Button variant="ghost" onClick={() => signIn()} className="hover:bg-accent/50">
-                      Sign In
+                    <Button variant="ghost" asChild className="hover:bg-accent/50">
+                      <Link href="/auth/signin">
+                        Sign In
+                      </Link>
                     </Button>
                   </PulseOnHover>
                   <PulseOnHover>
-                    <Button onClick={() => signIn()} className="shadow-lg hover:shadow-xl transition-all bg-gradient-to-r from-primary to-primary/90 hover:from-primary hover:to-primary">
-                      Sign Up
+                    <Button asChild className="shadow-lg hover:shadow-xl transition-all bg-gradient-to-r from-primary to-primary/90 hover:from-primary hover:to-primary">
+                      <Link href="/auth/signup">
+                        Sign Up
+                      </Link>
                     </Button>
                   </PulseOnHover>
                 </motion.div>
