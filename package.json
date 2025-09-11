@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "npm run build:production",
+    "build:dev": "next build",
+    "build:production": "cp prisma/schema.production.prisma prisma/schema.prisma && npx prisma generate && next build && cp prisma/schema.sqlite.prisma prisma/schema.prisma",
     "start": "next start",
     "lint": "next lint",
     "test-auth": "node -r dotenv/config test-auth.js dotenv_config_path=.env.local"
